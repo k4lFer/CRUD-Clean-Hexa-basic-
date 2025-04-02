@@ -1,0 +1,17 @@
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Application.deps.json
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Application.dll
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Application.pdb
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Domain.dll
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Shared.dll
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Domain.pdb
+D:\Arquitectura\Model-Architecture\Application\bin\Debug\net9.0\Shared.pdb
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.csproj.AssemblyReference.cache
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.AssemblyInfoInputs.cache
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.AssemblyInfo.cs
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.csproj.CoreCompileInputs.cache
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Applicat.44B5EDA2.Up2Date
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.dll
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\refint\Application.dll
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\Application.pdb
+D:\Arquitectura\Model-Architecture\Application\obj\Debug\net9.0\ref\Application.dll
