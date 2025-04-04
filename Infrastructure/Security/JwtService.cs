@@ -25,7 +25,10 @@ namespace Infrastructure.Security
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Issuer = AppSettings.GetIssuer(),
+                Audience = AppSettings.GetAudience(),
+                NotBefore = DateTime.UtcNow, 
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256),
             };
 
@@ -48,14 +51,23 @@ namespace Infrastructure.Security
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = refreshKey,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken securityToken);
 
                 var id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
                 var role = principal.FindFirst(ClaimTypes.Role)?.Value ?? "";
+                var type = principal.FindFirst("token_type")?.Value ?? "";
+
+                if (type != "refresh")
+                {
+                    message.AddMessage("El token no es un refresh token.");
+                    message.Error();
+                    return Task.FromResult<(Tokens, Message)>((null, message));
+                }
 
                 SymmetricSecurityKey accessKey = new(Encoding.UTF8.GetBytes(AppSettings.GetAccessJwtSecret()));
                 List<Claim> newClaims =
@@ -67,7 +79,10 @@ namespace Infrastructure.Security
                 var descriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(newClaims),
-                    Expires = DateTime.UtcNow.AddDays(1),
+                    Issuer = AppSettings.GetIssuer(),
+                    Audience = AppSettings.GetAudience(),
+                    NotBefore = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddMinutes(15),
                     SigningCredentials = new SigningCredentials(accessKey, SecurityAlgorithms.HmacSha256)
                 };
 
@@ -108,6 +123,9 @@ namespace Infrastructure.Security
             ];
             var descriptor = new SecurityTokenDescriptor{
                 Subject = new ClaimsIdentity(claims),
+                Issuer = AppSettings.GetIssuer(),
+                Audience = AppSettings.GetAudience(),
+                NotBefore = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256),
 
