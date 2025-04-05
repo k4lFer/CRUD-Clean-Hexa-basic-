@@ -2,10 +2,9 @@ using Shared.Message;
 
 namespace Presentation.Generic
 {
-    public abstract class SoGenericInput<TCreate, TUpdate>
+    public abstract class SoGenericInput<TInput>
     {
-        public TCreate? CreateDto { get; set; }
-        public TUpdate? UpdateDto { get; set; }
+        public TInput? InputDto { get; set; }
     }
 
 }

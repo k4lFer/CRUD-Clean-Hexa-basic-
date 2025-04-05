@@ -12,38 +12,18 @@ namespace Application
     {
         public AutoMapperProfile()
         {
-            CreateMap<CustomerCreateDto, TCustomer>();
-
-            CreateMap<TCustomer, CustomerResponseDto>();
-            
-            CreateMap<CustomerUpdateDto, TCustomer>();
-                //.ForMember(dest => dest.updatedAt, opt => opt.Ignore())
-                //.ForMember(dest => dest.createdAt, opt => opt.Ignore());
-
-            CreateMap<ProductCreateDto, TProduct>()
-                .ForMember(dest => dest.createdAt, opt => opt.Ignore())
-                .ForMember(dest => dest.updatedAt, opt => opt.Ignore());
-
-            CreateMap<ProductUpdateDto, TProduct>()
-                .ForMember(dest => dest.updatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.createdAt, opt => opt.Ignore());    
+            CreateMap<TCustomer, CustomerResponseDto>(); 
 
             CreateMap<TProduct, ProductResponseDto>();
-
-
-            CreateMap<OrderCreateDto, TOrder>();
-            CreateMap<OrderDetailCreateDto, TOrderDetail>();
 
             CreateMap<TOrder, OrderResponseDto>();
 
             CreateMap<TOrderDetail, OrderDetailsResponseDto>()
                 .ForMember(dest => dest.productName, opt => opt.MapFrom(src => src.Product.name));
 
-            CreateMap<AuthDto, TOwner>();
-
             CreateMap<TOwner, AuthResponseDto>();
             
-            CreateMap<TOwner, OwnerProfile>()
+            CreateMap<TOwner, OwnerResponseDto>()
                 .ForMember(dest => dest.role, opt => opt.MapFrom(src => src.role.ToString()))
                 .ForMember(dest => dest.fullName, opt => opt.MapFrom(src => src.firstName + " " + src.lastName));
         }

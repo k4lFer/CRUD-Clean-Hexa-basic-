@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "D:\\Arquitectura\\Model-Architecture\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|d:\\arquitectura\\model-architecture\\presentation\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|solutionrelative:presentation\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|d:\\arquitectura\\model-architecture\\application\\features\\owner\\queries\\getprofile\\getownerqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|solutionrelative:application\\features\\owner\\queries\\getprofile\\getownerqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|d:\\arquitectura\\model-architecture\\presentation\\controllers\\ownercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|solutionrelative:presentation\\controllers\\ownercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|d:\\arquitectura\\model-architecture\\presentation\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|solutionrelative:presentation\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|d:\\arquitectura\\model-architecture\\presentation\\serviceobject\\owner\\soowneroutput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|solutionrelative:presentation\\serviceobject\\owner\\soowneroutput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|d:\\arquitectura\\model-architecture\\presentation\\generic\\sogenericinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C775205B-B75F-40AE-9C2F-0CE58DEF6647}|Presentation\\Presentation.csproj|solutionrelative:presentation\\generic\\sogenericinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0DD07D6C-4137-4C44-813B-964B18EB41C9}|Infrastructure\\Infrastructure.csproj|d:\\arquitectura\\model-architecture\\infrastructure\\infrastructuredependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0DD07D6C-4137-4C44-813B-964B18EB41C9}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\infrastructuredependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -15,16 +39,16 @@
       "RelativeMoniker": "D:0:0:{0764373A-28FD-40FA-9C58-203F3634F127}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\torder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|d:\\arquitectura\\model-architecture\\application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|solutionrelative:application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0DD07D6C-4137-4C44-813B-964B18EB41C9}|Infrastructure\\Infrastructure.csproj|d:\\arquitectura\\model-architecture\\infrastructure\\persistence\\repositories\\orderdetailrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0DD07D6C-4137-4C44-813B-964B18EB41C9}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\persistence\\repositories\\orderdetailrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|d:\\arquitectura\\model-architecture\\application\\features\\product\\queries\\getallpag\\getallproductspagqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FD630027-E7C0-46FA-8751-1F0B80426594}|Application\\Application.csproj|solutionrelative:application\\features\\product\\queries\\getallpag\\getallproductspagqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Arquitectura\\Model-Architecture\\Application\\Services\\OrderService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Application\\Services\\OrderService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +70,85 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Presentation\\Controllers\\OrderController.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Presentation\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-05T00:56:06.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "GetOwnerQueryHandler.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Application\\Features\\Owner\\Queries\\GetProfile\\GetOwnerQueryHandler.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Owner\\Queries\\GetProfile\\GetOwnerQueryHandler.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Application\\Features\\Owner\\Queries\\GetProfile\\GetOwnerQueryHandler.cs",
+              "RelativeToolTip": "Application\\Features\\Owner\\Queries\\GetProfile\\GetOwnerQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-05T00:53:20.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OwnerController.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\OwnerController.cs",
+              "RelativeDocumentMoniker": "Presentation\\Controllers\\OwnerController.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\OwnerController.cs",
+              "RelativeToolTip": "Presentation\\Controllers\\OwnerController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwCgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-05T00:36:54.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SoOwnerOutput.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Presentation\\ServiceObject\\Owner\\SoOwnerOutput.cs",
+              "RelativeDocumentMoniker": "Presentation\\ServiceObject\\Owner\\SoOwnerOutput.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Presentation\\ServiceObject\\Owner\\SoOwnerOutput.cs",
+              "RelativeToolTip": "Presentation\\ServiceObject\\Owner\\SoOwnerOutput.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-05T00:32:47.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Presentation\\Controllers\\CustomerController.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Presentation\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAArwEwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T23:59:52.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SoGenericInput.cs",
+              "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Generic\\SoGenericInput.cs",
+              "RelativeDocumentMoniker": "Presentation\\Generic\\SoGenericInput.cs",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Presentation\\Generic\\SoGenericInput.cs",
+              "RelativeToolTip": "Presentation\\Generic\\SoGenericInput.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T23:59:29.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ICloudinaryService.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Application\\Interfaces\\ExternalServices\\ICloudinaryService.cs",
               "RelativeDocumentMoniker": "Application\\Interfaces\\ExternalServices\\ICloudinaryService.cs",
@@ -54,25 +156,24 @@
               "RelativeToolTip": "Application\\Interfaces\\ExternalServices\\ICloudinaryService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T14:24:57.159Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-02T14:24:57.159Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "InfrastructureDependencyInjection.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Infrastructure\\InfrastructureDependencyInjection.cs",
               "RelativeDocumentMoniker": "Infrastructure\\InfrastructureDependencyInjection.cs",
-              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Infrastructure\\InfrastructureDependencyInjection.cs*",
-              "RelativeToolTip": "Infrastructure\\InfrastructureDependencyInjection.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAA8AAAAAAAAAA==",
+              "ToolTip": "D:\\Arquitectura\\Model-Architecture\\Infrastructure\\InfrastructureDependencyInjection.cs",
+              "RelativeToolTip": "Infrastructure\\InfrastructureDependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAcwCIAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-02T14:24:40.438Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "TOrder.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Domain\\Entities\\TOrder.cs",
               "RelativeDocumentMoniker": "Domain\\Entities\\TOrder.cs",
@@ -80,12 +181,11 @@
               "RelativeToolTip": "Domain\\Entities\\TOrder.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-30T20:55:36.784Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-30T20:55:36.784Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "OrderDetailRepository.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Infrastructure\\Persistence\\Repositories\\OrderDetailRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Persistence\\Repositories\\OrderDetailRepository.cs",
@@ -97,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "OrderService.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Application\\Services\\OrderService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\OrderService.cs",
@@ -109,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "GetAllProductsPagQueryHandler.cs",
               "DocumentMoniker": "D:\\Arquitectura\\Model-Architecture\\Application\\Features\\Product\\Queries\\GetAllPag\\GetAllProductsPagQueryHandler.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Product\\Queries\\GetAllPag\\GetAllProductsPagQueryHandler.cs",

@@ -22,11 +22,11 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = ValidatePartDto(soOrder.CreateDto,[
-                    nameof(soOrder.CreateDto.customerId),
-                    nameof(soOrder.CreateDto.orderDetails)
+                _so.message = ValidatePartDto(soOrder.InputDto,[
+                    nameof(soOrder.InputDto.customerId),
+                    nameof(soOrder.InputDto.orderDetails)
                     ]);
-                _so.message = await _mediator.Send(new CreateOrderCommand(soOrder.CreateDto));
+                _so.message = await _mediator.Send(new CreateOrderCommand(soOrder.InputDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)

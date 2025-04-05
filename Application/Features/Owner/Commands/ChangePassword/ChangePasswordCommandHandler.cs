@@ -44,14 +44,16 @@ namespace Application.Features.Owner.Commands.ChangePassword
                 await _unitOfWork.CommitAsync(cancellationToken);
                 message.Updated();
                 message.AddMessage("Contraseña actualizada con éxito");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 message.Error();
                 message.AddMessage($"Error al cambiar la contraseña: {ex.Message}");
+                message.AddMessage($"Error al cambiar la contraseña: {ex.Message}");
+                return message;
             }
-            return message;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.Body.Dto.Profile = await _mediator.Send(new GetOwnerQuery());
+                _so.Body.Dto = await _mediator.Send(new GetOwnerQuery());
                 return StatusCode((int)_so.message.ToStatusCode(), _so);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                (_so.message, _so.Body.Dto.ResponseDto) = await _mediator.Send(new GetOwnerByIdQuery(id));
+                (_so.message, _so.Body.Dto) = await _mediator.Send(new GetOwnerByIdQuery(id));
                 return StatusCode((int)_so.message.ToStatusCode(), _so);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = await _mediator.Send(new CreateOwnerCommand(soOwner.CreateDto));
+                _so.message = await _mediator.Send(new CreateOwnerCommand(soOwner.InputDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)

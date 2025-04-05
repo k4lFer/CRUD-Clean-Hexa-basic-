@@ -44,7 +44,8 @@ INSERT INTO `owners` (`id`,`username`,`password`,`firstName`,`lastName`,`email`,
         "password": "1001inventory"
         }
     }
-  
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3Yjc3NWUzMi04Yjc4LTQzNTItYmEwZS1iMTM5ODNlYzY5YTAiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NDM4MTM1MDUsImV4cCI6MTc0MzgxNDQwNSwiaWF0IjoxNzQzODEzNTA1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUyNjYiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.zv_INcKOJrycX--_meVZ4rKWA1hdqKqUJKYdIzuX7q0
+      
   }
 
   {

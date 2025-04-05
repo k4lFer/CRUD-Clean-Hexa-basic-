@@ -72,3 +72,4 @@ D:\Arquitectura\Model-Architecture\Presentation\bin\Debug\net9.0\FluentValidatio
 D:\Arquitectura\Model-Architecture\Presentation\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\Arquitectura\Model-Architecture\Presentation\bin\Debug\net9.0\BCrypt.Net-Next.dll
 D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\Presentation.sourcelink.json

@@ -68,8 +68,8 @@ namespace Application.Features.Product.Commands.UpdateProduct
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 message.Error();
                 message.AddMessage($"Error al actualizar el cliente: {ex.Message}");
+                return message;
             }
-            return message;
         }
     }
 }

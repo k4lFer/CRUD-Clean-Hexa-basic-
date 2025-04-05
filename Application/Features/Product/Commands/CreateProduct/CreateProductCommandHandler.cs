@@ -28,14 +28,18 @@ namespace Application.Features.Product.Commands.CreateProduct
                
                 await _productRepository.AddAsync(product, cancellationToken); // 🔹 Solo agrega, sin guardar
                 await _unitOfWork.CommitAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
+
+                message.Created();
+                message.AddMessage("Producto creado correctamente.");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 message.Error();
                 message.AddMessage($"Error al crear el producto: {ex.Message}");
+                return message;
             }
-            return message;
         }
     }
 }

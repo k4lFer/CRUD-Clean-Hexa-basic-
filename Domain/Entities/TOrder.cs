@@ -5,9 +5,7 @@ using System.Collections.ObjectModel;
 namespace Domain.Entities
 {
     public class TOrder : BaseEntity
-    {
-
-        
+    {        
         public Guid customerId { get; private set; }
         public decimal totalPrice { get; private set; }
         public DateTime createdAt { get; private set; }

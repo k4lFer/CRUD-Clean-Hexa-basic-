@@ -26,7 +26,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = await _mediator.Send(new CreateProductCommand(soProduct.CreateDto));
+                _so.message = await _mediator.Send(new CreateProductCommand(soProduct.InputDto.CreateDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = await _mediator.Send(new UpdateProductCommand(soProduct.UpdateDto));
+                _so.message = await _mediator.Send(new UpdateProductCommand(soProduct.InputDto.UpdateDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)

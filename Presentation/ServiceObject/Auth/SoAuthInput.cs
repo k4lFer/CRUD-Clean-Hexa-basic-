@@ -3,7 +3,7 @@ using Presentation.Generic;
 
 namespace Presentation.ServiceObject.Auth
 {
-    public class SoAuthInput : SoGenericInput<AuthDto, object>
+    public class SoAuthInput : SoGenericInput<AuthDto>
     {
         public SoAuthInput() { }
     }

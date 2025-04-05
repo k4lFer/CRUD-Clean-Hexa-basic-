@@ -6,6 +6,5 @@ namespace Application.DTOs.Order
         public decimal totalPrice { get; set; }
         public DateTime createdAt { get; set; }
         public ICollection<OrderDetailsResponseDto> OrderDetails { get; set; } = new List<OrderDetailsResponseDto>();
-
     }
 }

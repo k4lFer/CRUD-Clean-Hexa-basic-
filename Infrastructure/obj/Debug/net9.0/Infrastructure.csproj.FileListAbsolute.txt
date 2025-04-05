@@ -17,3 +17,4 @@ D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructur
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\refint\Infrastructure.dll
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.pdb
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\ref\Infrastructure.dll
+D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.sourcelink.json

@@ -41,16 +41,16 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = ValidatePartDto(soCustomer.CreateDto,
+                _so.message = ValidatePartDto(soCustomer.InputDto.CreateDto,
                 [
-                    nameof(soCustomer.CreateDto.firstName),
-                    nameof(soCustomer.CreateDto.lastName),
-                    nameof(soCustomer.CreateDto.email),
-                    nameof(soCustomer.CreateDto.documentNumber)
+                    nameof(soCustomer.InputDto.CreateDto.firstName),
+                    nameof(soCustomer.InputDto.CreateDto.lastName),
+                    nameof(soCustomer.InputDto.CreateDto.email),
+                    nameof(soCustomer.InputDto.CreateDto.documentNumber)
                 ]);
                 if (_so.message.ExistsMessage()) return StatusCode((int)_so.message.ToStatusCode(), _so);
 
-                _so.message = await _mediator.Send(new CreateCustomerCommand(soCustomer.CreateDto));
+                _so.message = await _mediator.Send(new CreateCustomerCommand(soCustomer.InputDto.CreateDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)
@@ -66,13 +66,13 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = ValidatePartDto(soCustomer.UpdateDto,
+                _so.message = ValidatePartDto(soCustomer.InputDto.UpdateDto,
                 [
-                    nameof(soCustomer.UpdateDto.id),
+                    nameof(soCustomer.InputDto.UpdateDto.id),
                 ]);
                 if (_so.message.ExistsMessage()) return StatusCode((int)_so.message.ToStatusCode(), _so);
 
-                _so.message = await _mediator.Send(new UpdateCustomerCommand(soCustomer.UpdateDto));
+                _so.message = await _mediator.Send(new UpdateCustomerCommand(soCustomer.InputDto.UpdateDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so.message);
             }
             catch (Exception ex)

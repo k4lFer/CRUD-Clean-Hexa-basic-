@@ -15,5 +15,5 @@ namespace Application.Features.Order.Queries.GetAllPag
             this.pageSize = pageSize ?? 10;
         }   
     }
-    
+
 }

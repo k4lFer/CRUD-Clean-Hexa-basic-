@@ -36,14 +36,15 @@ namespace Application.Features.Owner.Commands.CreateOwner
 
                 message.Created();
                 message.AddMessage("Propietario creado con éxito");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken); 
                 message.Error();
                 message.AddMessage($"Error al crear el cliente: {ex.Message}");
+                return message;
             }
-            return message;
         }
     }
 }

@@ -10,3 +10,4 @@ D:\Arquitectura\Model-Architecture\Domain\obj\Debug\net9.0\refint\Domain.dll
 D:\Arquitectura\Model-Architecture\Domain\obj\Debug\net9.0\Domain.pdb
 D:\Arquitectura\Model-Architecture\Domain\obj\Debug\net9.0\ref\Domain.dll
 D:\Arquitectura\Model-Architecture\Domain\obj\Debug\net9.0\Domain.csproj.AssemblyReference.cache
+D:\Arquitectura\Model-Architecture\Domain\obj\Debug\net9.0\Domain.sourcelink.json

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Features.Owner.Queries.GetProfile
 {
     [Authorize]
-    public class GetOwnerQueryHandler : IRequestHandler<GetOwnerQuery, OwnerProfile>
+    public class GetOwnerQueryHandler : IRequestHandler<GetOwnerQuery, OwnerResponseDto>
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Application.Features.Owner.Queries.GetProfile
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
-        public async Task<OwnerProfile> Handle(GetOwnerQuery request, CancellationToken cancellationToken)
+        public async Task<OwnerResponseDto> Handle(GetOwnerQuery request, CancellationToken cancellationToken)
         {
             var ownerId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(ownerId))
@@ -34,7 +34,7 @@ namespace Application.Features.Owner.Queries.GetProfile
 
             //_logger.LogInformation($"Extracted Owner ID: {ownerId}");
             var owner = await _ownerRepository.GetByIdAsync(Guid.Parse(ownerId!), cancellationToken);
-            var ownerProfile = _mapper.Map<OwnerProfile>(owner);
+            var ownerProfile = _mapper.Map<OwnerResponseDto>(owner);
             return ownerProfile;       
         }
     }

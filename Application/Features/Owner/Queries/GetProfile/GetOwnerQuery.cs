@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Features.Owner.Queries.GetProfile
 {
-    public class GetOwnerQuery : IRequest<OwnerProfile>
+    public class GetOwnerQuery : IRequest<OwnerResponseDto>
     {
         
     }

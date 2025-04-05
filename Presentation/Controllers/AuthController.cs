@@ -21,13 +21,13 @@ namespace Presentation.Controllers
         {
             try
             {
-                _so.message = ValidatePartDto(soAuth.CreateDto, 
+                _so.message = ValidatePartDto(soAuth.InputDto, 
                 [
-                    nameof(soAuth.CreateDto.username), 
-                    nameof(soAuth.CreateDto.password)
+                    nameof(soAuth.InputDto.username), 
+                    nameof(soAuth.InputDto.password)
                 ]);
                 if (_so.message.ExistsMessage()) return StatusCode((int)_so.message.ToStatusCode(), _so);
-                (_so.message, _so.Body.Dto) = await _mediator.Send(new AuthQuery(soAuth.CreateDto));
+                (_so.message, _so.Body.Dto) = await _mediator.Send(new AuthQuery(soAuth.InputDto));
                 return StatusCode((int)_so.message.ToStatusCode(), _so);
             }
             catch (Exception ex)

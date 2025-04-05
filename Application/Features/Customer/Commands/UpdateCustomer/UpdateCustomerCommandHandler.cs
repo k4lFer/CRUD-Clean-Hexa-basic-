@@ -69,16 +69,17 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
                 await _repository.UpdateAsync(existingCustomer, cancellationToken); // Actualizar el cliente
                 await _unitOfWork.CommitAsync(cancellationToken); // Guardar cambios en la base de datos
 
-                 message.Success();
+                message.Success();
                 message.AddMessage("Cliente actualizado exitosamente.");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 message.Error();
                 message.AddMessage($"Error al actualizar el cliente: {ex.Message}");
+                return message;
             }
-            return message;
         }
     }
 }

@@ -21,13 +21,13 @@ namespace Application.Features.Owner.Queries.GetById
             var message = new Message();
             if(owner != null)
             {
+                var ownerDto = _mapper.Map<OwnerResponseDto>(owner);
+                message.Success();
+                return (message, ownerDto);
+            }
                 message.NotFound();
                 message.AddMessage("Propietario no encontrado.");
                 return (message, null);
-            }
-            var ownerDto = _mapper.Map<OwnerResponseDto>(owner);
-            message.Success();
-            return (message, ownerDto);
         }
     }
 }

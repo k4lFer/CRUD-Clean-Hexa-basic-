@@ -57,15 +57,15 @@ namespace Application.Features.Order.Services
 
                 message.Success();
                 message.AddMessage("Orden cancelada y stock restaurado exitosamente");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 message.Error();
                 message.AddMessage($"Error al cancelar orden: {ex.Message}");
-            }
-
-            return message;
+                return message;
+            }            
         }
 
         public async Task<Message> CreateOrderAsync(OrderCreateDto orderDto, CancellationToken cancellationToken)
@@ -83,15 +83,15 @@ namespace Application.Features.Order.Services
                 await _unitOfWork.CommitAsync(cancellationToken);
                 message.Success();
                 message.AddMessage("Orden creada con éxito");
+                return message;
             }
             catch (Exception ex)
             {
                 await HandleOrderCreationErrorAsync(cancellationToken);
                 message.Error();
                 message.AddMessage($"Error al crear la orden: {ex.Message}");
+               return message;
             }
-
-            return message;
         }
 
         public async Task<bool> ProcessOrderAsync(Guid orderId)

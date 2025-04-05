@@ -14,7 +14,7 @@ namespace Application.Features.Customer.Events
         }
 
         public async Task Handle(CreateCustomerEvent notification, CancellationToken cancellationToken)
-        {
+        { 
             await _notificationService.SendNotificationCustomerAsync(notification.fullName, notification.email);
         }
     }

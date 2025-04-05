@@ -40,15 +40,15 @@ namespace Application.Features.Customer.Commands.CreateCustomer
 
                 message.Created();
                 message.AddMessage("Cliente creado exitosamente.");
+                return message;
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken); 
                 message.Error();
                 message.AddMessage($"Error al crear el cliente: {ex.Message}");
+                return message;
             }
-
-            return message;
         }
     }
 }
