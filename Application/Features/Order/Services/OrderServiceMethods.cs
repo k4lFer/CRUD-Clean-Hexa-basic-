@@ -56,22 +56,13 @@ namespace Application.Features.Order.Services
 
         private TOrder BuildOrder(OrderCreateDto orderDto, ICollection<TProduct> products)
         {
-           /* return TOrder.Create(
-                orderDto.customerId,
-                orderDto.orderDetails.Select(d => (
-                    d.productId,
-                    d.quantity,
-                    products.First(p => p.id == d.productId).price)
-                ));
-                */
             var items = orderDto.orderDetails
                 .Select(d => (
                     d.productId,
                     d.quantity,
                     products.First(p => p.id == d.productId).price
                 ))
-                .ToList();  // Materializar aquí
-            
+                .ToList(); 
             return TOrder.Create(orderDto.customerId, items);
         }
 
@@ -79,7 +70,6 @@ namespace Application.Features.Order.Services
         {
             await _orderRepository.AddAsync(order, cancellationToken);
             
-            // Materializar la lista antes de pasarla al repositorio
             var orderDetails = order.OrderDetails.ToList();
             await _orderDetailRepository.CreateRangeAsync(orderDetails, cancellationToken);
         }

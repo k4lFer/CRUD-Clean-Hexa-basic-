@@ -10,6 +10,7 @@ using Infrastructure.Security;
 using Application.Interfaces.ExternalServices;
 using Application.Interfaces;
 using Infrastructure.ExternalServices;
+using Application.Common.Interfaces;
 
 namespace Infrastructure
 {
@@ -29,6 +30,7 @@ namespace Infrastructure
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddSignalR();
             services.AddScoped<ITokenUtilService, JwtService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

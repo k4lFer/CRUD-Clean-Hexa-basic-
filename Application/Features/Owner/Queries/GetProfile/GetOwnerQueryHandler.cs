@@ -7,36 +7,29 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Application.Common.Interfaces;
 
 namespace Application.Features.Owner.Queries.GetProfile
 {
-    [Authorize]
     public class GetOwnerQueryHandler : IRequestHandler<GetOwnerQuery, OwnerResponseDto>
     {
+        private readonly ICurrentUserService _currentUserService;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<GetOwnerQueryHandler> _logger;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public GetOwnerQueryHandler(IOwnerRepository ownerRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, ILogger<GetOwnerQueryHandler> logger)
+
+        public GetOwnerQueryHandler(IOwnerRepository ownerRepository, IMapper mapper, ILogger<GetOwnerQueryHandler> logger, ICurrentUserService currentUserService)
         {
+
             _ownerRepository = ownerRepository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _currentUserService = currentUserService;
         }
         public async Task<OwnerResponseDto> Handle(GetOwnerQuery request, CancellationToken cancellationToken)
         {
-            var ownerId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(ownerId))
-            {
-                return null;
-            }
-
-            //_logger.LogInformation($"Extracted Owner ID: {ownerId}");
-            var owner = await _ownerRepository.GetByIdAsync(Guid.Parse(ownerId!), cancellationToken);
-            var ownerProfile = _mapper.Map<OwnerResponseDto>(owner);
-            return ownerProfile;       
+            var owner = await _ownerRepository.GetByIdAsync(Guid.Parse(_currentUserService.UserId!), cancellationToken);
+            return _mapper.Map<OwnerResponseDto>(owner);     
         }
     }
-
 }

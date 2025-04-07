@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Application.Common.Interfaces;
 using Application.DTOs.Common;
 using Application.DTOs.Owner;
 using AutoMapper;
@@ -10,23 +11,24 @@ using Shared.Message;
 
 namespace Application.Features.Owner.Queries.GetAllPag
 {
-    [Authorize]
     public class GetAllOwnerPagQueryHandler : IRequestHandler<GetAllOwnerPagQuery, (Message, PagedResponse<OwnerResponseDto>)>
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICurrentUserService _currentUserService; 
 
-        public GetAllOwnerPagQueryHandler(IOwnerRepository ownerRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public GetAllOwnerPagQueryHandler(IOwnerRepository ownerRepository, IMapper mapper,
+            ICurrentUserService currentUserService)
         {
             _ownerRepository = ownerRepository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
+            _currentUserService = currentUserService;
         }
         public async Task<(Message, PagedResponse<OwnerResponseDto>)> Handle(GetAllOwnerPagQuery request, CancellationToken cancellationToken)
         {
-            var ownerId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var message = new Message();
+            var ownerId = _currentUserService.UserId;
+
             var pagedOwners = await _ownerRepository.GetAllPaged(
                 request.pageNumber, 
                 request.pageSize, 
