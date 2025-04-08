@@ -1,4 +1,5 @@
 D:\Arquitectura\Model-Architecture\Infrastructure\bin\Debug\net9.0\Infrastructure.deps.json
+D:\Arquitectura\Model-Architecture\Infrastructure\bin\Debug\net9.0\Infrastructure.runtimeconfig.json
 D:\Arquitectura\Model-Architecture\Infrastructure\bin\Debug\net9.0\Infrastructure.dll
 D:\Arquitectura\Model-Architecture\Infrastructure\bin\Debug\net9.0\Infrastructure.pdb
 D:\Arquitectura\Model-Architecture\Infrastructure\bin\Debug\net9.0\Application.dll
@@ -12,9 +13,10 @@ D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructur
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.AssemblyInfoInputs.cache
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.AssemblyInfo.cs
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.csproj.CoreCompileInputs.cache
+D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.sourcelink.json
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastr.15EFFBFE.Up2Date
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.dll
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\refint\Infrastructure.dll
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.pdb
+D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.genruntimeconfig.cache
 D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\ref\Infrastructure.dll
-D:\Arquitectura\Model-Architecture\Infrastructure\obj\Debug\net9.0\Infrastructure.sourcelink.json
