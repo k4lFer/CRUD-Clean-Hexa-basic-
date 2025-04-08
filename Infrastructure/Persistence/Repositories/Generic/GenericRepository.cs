@@ -45,10 +45,10 @@ namespace Infrastructure.Persistence.Repositories.Generic
                     .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "id") == id, cancellationToken);
         }
 
-        public Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         { 
             _context.Set<T>().Update(entity);
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
         
         protected async Task<PagedResult<T>> GetPagedResultAsync<T>(

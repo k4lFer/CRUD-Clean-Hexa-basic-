@@ -1,23 +1,49 @@
 using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Application.DTOs.Order;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
 
 namespace Application.Features.Order.Services
 {
     public partial class OrderService
     {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductRepository _productRepository;
+        private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IDomainEventDispatcher _dispatcher;
+
+        public OrderService(
+            IOrderRepository orderRepository,
+            IUnitOfWork unitOfWork,
+            IProductRepository productRepository,
+            IOrderDetailRepository orderDetailRepository,
+            IDomainEventDispatcher dispatcher)
+        {
+            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
+            _productRepository = productRepository;
+            _orderDetailRepository = orderDetailRepository;
+            _dispatcher = dispatcher;
+        }
          #region Private Methods
 
         private async Task<TOrder> GetValidOrderAsync(Guid orderId)
         {
-            return await _orderRepository.GetByIdAsync(orderId) 
-                ?? throw new BaseException("Orden no encontrada");
+            var order = await _orderRepository.GetByIdAsync(orderId) 
+                        ?? throw new BaseException("Orden no encontrada");
+            if (order.IsCancelled())
+            {
+                throw new BaseException("La orden ya fue cancelada");
+            }
+            return order;
         }
 
         private async Task SaveOrderChangesAsync(TOrder order)
         {
             await _orderRepository.UpdateAsync(order);
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.SaveChangesAsync(default);
         }
 
         private async Task<ICollection<TProduct>> ValidateProductsAndStockAsync(

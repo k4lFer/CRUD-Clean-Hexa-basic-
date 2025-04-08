@@ -1,5 +1,4 @@
-using Application.Interfaces.Services;
-using Infrastructure.Persistence;
+using Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence
@@ -58,9 +57,9 @@ namespace Infrastructure.Persistence
             }
         }
 
-        public async Task<bool> SaveChangesAsync(CancellationToken ct = default)
+        public async Task<int> SaveChangesAsync(CancellationToken ct = default)
         {
-            return await _context.SaveChangesAsync(ct) > 0;
+            return await _context.SaveChangesAsync(ct);
         }
 
         public void Dispose()

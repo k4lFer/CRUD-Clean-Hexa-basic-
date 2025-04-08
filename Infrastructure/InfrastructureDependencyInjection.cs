@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Shared.Settings;
 using Infrastructure.Security;
 using Application.Interfaces.ExternalServices;
-using Application.Interfaces;
 using Infrastructure.ExternalServices;
 using Application.Common.Interfaces;
 
@@ -22,7 +21,7 @@ namespace Infrastructure
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         
-                    
+            #region Repositories        
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -31,10 +30,15 @@ namespace Infrastructure
             services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            #endregion
             services.AddSignalR();
+
+            #region External Services
             services.AddScoped<ITokenUtilService, JwtService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
+            #endregion
+            
             return services;
         }
     }

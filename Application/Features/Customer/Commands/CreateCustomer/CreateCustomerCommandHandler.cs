@@ -4,6 +4,7 @@ using MediatR;
 using Shared.Message;
 using Application.Interfaces.Services;
 using Domain.Interfaces.Repositories;
+using Application.Common.Interfaces;
 
 namespace Application.Features.Customer.Commands.CreateCustomer
 {
@@ -19,36 +20,25 @@ namespace Application.Features.Customer.Commands.CreateCustomer
         public async Task<Message> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var message = new Message();
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            var customer = TCustomer.Create(
+                request.Customer.firstName,
+                request.Customer.lastName,
+                request.Customer.documentType,
+                request.Customer.documentNumber,
+                request.Customer.email,
+                request.Customer.phoneNumber
+            );
 
-            try
-            {
-                var customer = TCustomer.Create(
-                    request.Customer.firstName,
-                    request.Customer.lastName,
-                    request.Customer.documentType,
-                    request.Customer.documentNumber,
-                    request.Customer.email,
-                    request.Customer.phoneNumber
-                );
+            await _customerRepository.AddAsync(customer, cancellationToken);
 
-                await _customerRepository.AddAsync(customer, cancellationToken);
+            //await _unitOfWork.CommitAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
+            await _unitOfWork.SaveChangesAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
 
-                await _unitOfWork.CommitAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
+            await _dispatcher.DispatchAndClearEventsAsync(customer, cancellationToken); 
 
-                await _dispatcher.DispatchAndClearEventsAsync(customer, cancellationToken); 
-
-                message.Created();
-                message.AddMessage("Cliente creado exitosamente.");
-                return message;
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.RollbackAsync(cancellationToken); 
-                message.Error();
-                message.AddMessage($"Error al crear el cliente: {ex.Message}");
-                return message;
-            }
+            message.Created();
+            message.AddMessage("Cliente creado exitosamente.");
+            return message;
         }
     }
 }

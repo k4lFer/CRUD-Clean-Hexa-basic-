@@ -1,4 +1,4 @@
-using Application.Interfaces.Services;
+using Application.Common.Interfaces;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Shared.Message;
@@ -19,15 +19,9 @@ namespace Application.Features.Product.Commands.UpdateProduct
         {
             var message = new Message();
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            try
+            var existingProduct = await _productRepository.GetByIdAsync(request.Product.id, cancellationToken);
+            if (existingProduct != null)
             {
-                var existingProduct = await _productRepository.GetByIdAsync(request.Product.id, cancellationToken);
-                if (existingProduct == null)
-                {
-                    message.NotFound();
-                    message.AddMessage("Product not found.");
-                    return message;
-                }
                 var originalValues = new
                 {
                     existingProduct.name,
@@ -36,7 +30,6 @@ namespace Application.Features.Product.Commands.UpdateProduct
                     existingProduct.price
                 };
                 
-
                 existingProduct.Update(
                     request.Product.name,
                     request.Product.description,
@@ -53,23 +46,16 @@ namespace Application.Features.Product.Commands.UpdateProduct
                     message.Warning();
                     return message;
                 }
-                else
-                {
                     await _productRepository.UpdateAsync(existingProduct, cancellationToken);
-                    await _unitOfWork.CommitAsync(cancellationToken);
-
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
                     message.Success();
                     message.AddMessage("Producto actualizado exitosamente.");
                     return message;
-                }
             }
-            catch (Exception ex)
-            {
-                await _unitOfWork.RollbackAsync(cancellationToken);
-                message.Error();
-                message.AddMessage($"Error al actualizar el cliente: {ex.Message}");
-                return message;
-            }
+            message.NotFound();
+            message.AddMessage("Product not encontrado");
+            return message;
+            
         }
     }
 }

@@ -38,6 +38,10 @@ namespace Domain.Entities
         #endregion
 
         #region Public Methods
+        public bool IsCancelled()
+        {
+            return status == OrderEnum.Cancelled;
+        }
         public void CompleteOrder() => UpdateStatus(OrderEnum.Completed);
         public void ProcessOrder() => UpdateStatus(OrderEnum.Processing);
         public void CancelOrder() => UpdateStatus(OrderEnum.Cancelled);

@@ -1,9 +1,8 @@
 using Domain.Interfaces.Repositories;
-using Application.Interfaces.Services;
-using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Shared.Message;
+using Application.Common.Interfaces;
 
 namespace Application.Features.Product.Commands.CreateProduct
 {
@@ -16,30 +15,19 @@ namespace Application.Features.Product.Commands.CreateProduct
         public async Task<Message> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var message = new Message();
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            try
-            {
-                TProduct product = TProduct.Create(
-                    request.Product.name,
-                    request.Product.description, 
-                    request.Product.stock, 
-                    request.Product.price
-                    );
+            TProduct product = TProduct.Create(
+                request.Product.name,
+                request.Product.description, 
+                request.Product.stock, 
+                request.Product.price
+                );
                
-                await _productRepository.AddAsync(product, cancellationToken); // 🔹 Solo agrega, sin guardar
-                await _unitOfWork.CommitAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
+            await _productRepository.AddAsync(product, cancellationToken); // 🔹 Solo agrega, sin guardar
+            await _unitOfWork.SaveChangesAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
 
-                message.Created();
-                message.AddMessage("Producto creado correctamente.");
-                return message;
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.RollbackAsync(cancellationToken);
-                message.Error();
-                message.AddMessage($"Error al crear el producto: {ex.Message}");
-                return message;
-            }
+            message.Created();
+            message.AddMessage("Producto creado correctamente.");
+            return message;
         }
     }
 }

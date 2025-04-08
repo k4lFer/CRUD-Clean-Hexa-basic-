@@ -52,7 +52,9 @@ namespace Infrastructure.Security
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = refreshKey,
                     ValidateIssuer = true,
+                    ValidIssuer = AppSettings.GetIssuer(),
                     ValidateAudience = true,
+                    ValidAudience = AppSettings.GetAudience(),
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken securityToken);
@@ -138,13 +140,5 @@ namespace Infrastructure.Security
             return Task.FromResult(jwt);
         }
 
-        public string GetUserIdFromAccessToken(string accessToken)
-        {
-            String token = accessToken.Replace("Bearer ", "");
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            JwtSecurityToken? jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-            Claim? accessClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
-            return accessClaim?.Value ?? string.Empty;
-        }
     }
 }

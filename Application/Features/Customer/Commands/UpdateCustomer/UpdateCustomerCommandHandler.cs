@@ -1,7 +1,5 @@
+using Application.Common.Interfaces;
 using Domain.Interfaces.Repositories;
-using Application.Interfaces.Services;
-using AutoMapper;
-using Domain.Entities;
 using MediatR;
 using Shared.Message;
 
@@ -11,29 +9,19 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
     {
         private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public UpdateCustomerCommandHandler(ICustomerRepository customerRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public UpdateCustomerCommandHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
         {
             _repository = customerRepository;
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Message> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var message = new Message();
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            try
+            var existingCustomer = await _repository.GetByIdAsync(request.Customer.id, cancellationToken);
+            if (existingCustomer != null)
             {
-                var existingCustomer = await _repository.GetByIdAsync(request.Customer.id, cancellationToken);
-                if (existingCustomer == null)
-                {
-                    message.AddMessage("Cliente no encontrado.");
-                    message.Error();
-                    return message;
-                }
-
                 var originalValues = new 
                 {
                     existingCustomer.firstName,
@@ -54,7 +42,7 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
                     request.Customer.phoneNumber
                 );
 
-                // Verificar si hubo cambios reales
+                    // Verificar si hubo cambios reales
                 if (existingCustomer.firstName == originalValues.firstName &&
                     existingCustomer.lastName == originalValues.lastName &&
                     existingCustomer.documentType == originalValues.documentType &&
@@ -67,19 +55,17 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
                     return message;
                 }
                 await _repository.UpdateAsync(existingCustomer, cancellationToken); // Actualizar el cliente
-                await _unitOfWork.CommitAsync(cancellationToken); // Guardar cambios en la base de datos
+                await _unitOfWork.SaveChangesAsync(cancellationToken); // Guardar cambios en la base de datos
 
                 message.Success();
                 message.AddMessage("Cliente actualizado exitosamente.");
                 return message;
             }
-            catch (Exception ex)
-            {
-                await _unitOfWork.RollbackAsync(cancellationToken);
-                message.Error();
-                message.AddMessage($"Error al actualizar el cliente: {ex.Message}");
-                return message;
-            }
+
+            message.AddMessage("Cliente no encontrado.");
+            message.Error();
+            return message;
+     
         }
     }
 }

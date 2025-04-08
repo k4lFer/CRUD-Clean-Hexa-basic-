@@ -7,7 +7,6 @@ namespace Application.Interfaces.Services
     public interface ITokenUtilService
     {
         Task<string> GenerateAccessToken(AuthResponseDto user);
-        string GetUserIdFromAccessToken(string accessToken);
         Task<string> GenerateRefreshToken(AuthResponseDto user);
         Task<(Tokens, Message)> GenerateAccessTokenFromRefreshToken(string refreshToken);
     }

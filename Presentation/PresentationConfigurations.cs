@@ -53,7 +53,8 @@ namespace Presentation
                         context.HandleResponse();
                         context.Response.StatusCode = 401;
                         context.Response.ContentType = "application/json";
-                        return context.Response.WriteAsync("{\"message\": \"Unauthorized. Token no valido o expirado.\"}");
+                        return context.Response.WriteAsync("{ \"status\": 401, \"error\": \"Unauthorized\", \"message\": \"Token no valido o expirado.\"}");
+
                     }
                 };
             });
