@@ -5,7 +5,7 @@ namespace Application.Common.Exceptions
 {
     public class BaseException : Exception
     {
-        public HttpStatusCode StatusCode { get; }
+       /* public HttpStatusCode StatusCode { get; }
         public Message ResponseMessage { get; }
         public BaseException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
             : base(message)
@@ -16,6 +16,6 @@ namespace Application.Common.Exceptions
                 Type = "error",
                 ListMessage = [message]
             };
-        }
+        }*/
     }
 }

@@ -22,72 +22,38 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<SoProductOutput>> Create([FromBody] SoProductInput soProduct)
+        public async Task<IActionResult> Create([FromBody] SoProductInput soProduct)
         {
-            try
-            {
-                _so.message = await _mediator.Send(new CreateProductCommand(soProduct.InputDto.CreateDto));
-                return StatusCode((int)_so.message.ToStatusCode(), _so.message);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
+            return ResponseHelper.GetActionResult(await _mediator.Send(new CreateProductCommand(soProduct.InputDto.CreateDto)));
         }
 
         [AllowAnonymous]
         [HttpPut]
         [Route("[action]")]
-        public async Task<ActionResult<SoProductOutput>> Update([FromBody] SoProductInput soProduct)
+        public async Task<IActionResult> Update([FromBody] SoProductInput soProduct)
         {
-            try
-            {
-                _so.message = await _mediator.Send(new UpdateProductCommand(soProduct.InputDto.UpdateDto));
-                return StatusCode((int)_so.message.ToStatusCode(), _so.message);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
+            return ResponseHelper.GetActionResult(await _mediator.Send(new UpdateProductCommand(soProduct.InputDto.UpdateDto)));
         }
 
         [AllowAnonymous]    
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoProductOutput>> GetAllPaged
+        public async Task<IActionResult> GetAllPaged
         (
             [FromQuery] int? pageNumber, 
             [FromQuery] int? pageSize, 
             [FromQuery] string? search
         )
         {
-            try
-            {
-                (_so.message, _so.Body.Other) = await _mediator.Send(new GetAllProductsPagQuery(pageNumber, pageSize, search));
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            } 
-
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetAllProductsPagQuery(pageNumber, pageSize, search)));
         }
 
         [AllowAnonymous]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoProductOutput>> GetById([FromQuery] Guid id)
+        public async Task<IActionResult> GetById([FromQuery] Guid id)
         {
-            try 
-            {
-                (_so.message, _so.Body.Dto) = await _mediator.Send(new GetProductByIdQuery(id));
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
-
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetProductByIdQuery(id)));
         }
     }
 }

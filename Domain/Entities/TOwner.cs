@@ -45,6 +45,22 @@ namespace Domain.Entities
             return new TOwner(username, password, email, firstName, lastName, dni, ruc, address, phoneNumber, role);
         }
 
+        public void UpdateProfile(string username, string email, 
+            string firstName, string lastName, 
+            string dni, string? ruc, string address, 
+            string phoneNumber)
+        {
+            this.username = username ?? this.username;
+            this.email = email ?? this.email;
+            this.firstName = firstName ?? this.firstName;
+            this.lastName = lastName ?? this.lastName;
+            this.dni = dni ?? this.dni;
+            this.ruc = ruc ?? this.ruc;
+            this.address = address ?? this.address;
+            this.phoneNumber = phoneNumber ?? this.phoneNumber; 
+            updatedAt = DateTime.UtcNow;
+        }
+
         // Metodo para actualizar la contraseña
         public void UpdatePassword(string newPassword)
         {
@@ -52,7 +68,7 @@ namespace Domain.Entities
             updatedAt = DateTime.UtcNow;
         }
 
-        
+        public void UpdateStatus(bool status) => this.status = status;
         
     }
 }

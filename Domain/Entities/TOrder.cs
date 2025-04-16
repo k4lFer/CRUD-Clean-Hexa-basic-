@@ -15,7 +15,7 @@ namespace Domain.Entities
         private readonly ICollection<TOrderDetail> _orderDetails = new List<TOrderDetail>();
 
         public IReadOnlyCollection<TOrderDetail> OrderDetails => _orderDetails.ToList().AsReadOnly();
-
+        public TCustomer? tCustomer { get; private set; }
 
         #region Constructors
         private TOrder() { }
@@ -38,10 +38,9 @@ namespace Domain.Entities
         #endregion
 
         #region Public Methods
-        public bool IsCancelled()
-        {
-            return status == OrderEnum.Cancelled;
-        }
+        public bool IsCancelled() => status == OrderEnum.Cancelled;
+        public bool IsCompleted() => status == OrderEnum.Completed;
+        public bool IsProcessed() => status == OrderEnum.Processing;
         public void CompleteOrder() => UpdateStatus(OrderEnum.Completed);
         public void ProcessOrder() => UpdateStatus(OrderEnum.Processing);
         public void CancelOrder() => UpdateStatus(OrderEnum.Cancelled);

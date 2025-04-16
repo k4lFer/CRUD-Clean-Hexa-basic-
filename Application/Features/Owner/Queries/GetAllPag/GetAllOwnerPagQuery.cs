@@ -5,7 +5,7 @@ using Shared.Message;
 
 namespace Application.Features.Owner.Queries.GetAllPag
 {
-    public class GetAllOwnerPagQuery : IRequest<(Message, PagedResponse<OwnerResponseDto>)>
+    public class GetAllOwnerPagQuery : IRequest<Result<PagedResponse<OwnerResponseDto>>>
     {
         public int pageNumber { get; set; } 
         public int pageSize { get; set; }

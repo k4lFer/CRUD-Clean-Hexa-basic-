@@ -19,6 +19,8 @@ namespace Shared.Message
                 ListMessage.Add(message);
             }
         }
+        public bool IsSuccess() => Type == "success" || Type == "created" || Type == "updated" || Type == "deleted";
+        public bool IsError() => Type == "error" || Type == "warning" || Type == "not-found" || Type == "exception" || Type == "timeout" || Type == "conflict";
 
         // Métodos de respuesta según la operación
         public void Success() => Type = "success";

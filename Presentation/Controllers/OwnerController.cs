@@ -1,3 +1,4 @@
+using Application.Features.Owner.Commands.ChangePassword;
 using Application.Features.Owner.Commands.CreateOwner;
 using Application.Features.Owner.Queries.GetById;
 using Application.Features.Owner.Queries.GetProfile;
@@ -17,66 +18,33 @@ namespace Presentation.Controllers
         [Authorize]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoOwnerOutput>> GetProfile()
+        public async Task<IActionResult> GetProfile()
         {
-            try
-            {
-                _so.Body.Dto = await _mediator.Send(new GetOwnerQuery());
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
-            
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetOwnerQuery()));   
         }
 
         [AllowAnonymous]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoOwnerOutput>> GetOwner([FromQuery] Guid id)
+        public async Task<IActionResult> GetOwner([FromQuery] Guid id)
         {
-            try
-            {
-                (_so.message, _so.Body.Dto) = await _mediator.Send(new GetOwnerByIdQuery(id));
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
-            
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetOwnerByIdQuery(id)));
         }   
 
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<SoOwnerOutput>> Create([FromBody] SoOwnerInput soOwner) 
+        public async Task<IActionResult> Create([FromBody] SoOwnerInput soOwner) 
         {
-            try
-            {
-                _so.message = await _mediator.Send(new CreateOwnerCommand(soOwner.InputDto));
-                return StatusCode((int)_so.message.ToStatusCode(), _so.message);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
+            return ResponseHelper.GetActionResult(await _mediator.Send(new CreateOwnerCommand(soOwner.InputDto)));
         }
 
         [AllowAnonymous]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoOwnerOutput>> ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
-            try
-            {
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }
+            return Ok();
         }
 
     }

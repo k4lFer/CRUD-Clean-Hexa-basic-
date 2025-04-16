@@ -30,7 +30,8 @@ namespace Infrastructure.Persistence.Repositories
         {
             return await _context.Products.Where(p => 
                 ids.Contains(p.id))
-                .AsNoTracking().ToListAsync(cancellationToken);
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
         public Task UpdateRankAsync(ICollection<TProduct> products, CancellationToken cancellationToken = default)

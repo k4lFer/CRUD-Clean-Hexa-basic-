@@ -6,35 +6,30 @@ using Shared.Message;
 
 namespace Application.Features.Authentication.Commands.RefreshToken
 {
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, (Message, AuthResponseDto)>
+    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<AuthResponseDto>>
     {
         private readonly ITokenUtilService _jwtService;
         public RefreshTokenCommandHandler(ITokenUtilService jwtService) 
             => _jwtService = jwtService;
 
-        public async Task<(Message, AuthResponseDto)> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<AuthResponseDto>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             if (string.IsNullOrEmpty(request.Token))
             {
-                message.Error();
-                message.AddMessage("Token no puede ser nulo.");
-                return (message, (AuthResponseDto)null);
+                return Result<AuthResponseDto>.Error("Token no puede ser nulo.");
             }
-            (var newToken, message) = await _jwtService.GenerateAccessTokenFromRefreshToken(request.Token);
-            if(message.Type == "success")
+            var result = await _jwtService.GenerateAccessTokenFromRefreshToken(request.Token);
+            if(result.IsSuccess)
             {
-                AuthResponseDto user = new()
-                {
+                AuthResponseDto user = new() { 
                     tokens = new Tokens
                     {
-                        accessToken = newToken.accessToken
+                        accessToken = result.Data.accessToken,
                     }
                 };
-                message.Success();
-                return (message, user);
+                return Result<AuthResponseDto>.Success(user);
             }
-            return (message, (AuthResponseDto)null);
+            return Result<AuthResponseDto>.Error(result.Messages.FirstOrDefault()?.Message.FirstOrDefault() ?? "Error desconocido");
         }
     }
 }

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Shared.Message;
+using Application.DTOs.Common;
 
 namespace Presentation
 {
@@ -29,28 +29,18 @@ namespace Presentation
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var message = new Message();
-            message.Exception();
-            message.AddMessage("Ocurrió un error inesperado en el servidor.");
-
-            // Agregar detalles del error en modo desarrollo
-            message.AddMessage(exception.Message);
-
-            var response = new
-            {
-                message.Type,
-                Errors = message.ListMessage
-            };
-
-            var result = JsonSerializer.Serialize(response, new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            var result = Result<object>.Exception($"Ocurrió un error inesperado: {exception.Message}");
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)message.ToStatusCode(); // Corrección aquí
-            
-            return context.Response.WriteAsync(result);
+            context.Response.StatusCode = (int)result.HttpStatusCode;
+
+            var json = JsonSerializer.Serialize(result, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            });
+
+            return context.Response.WriteAsync(json);
         }
     }
 }

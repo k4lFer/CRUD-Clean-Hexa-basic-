@@ -13,6 +13,13 @@ namespace Infrastructure.Persistence.Repositories
         {
         }
 
+        public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Customers
+                .AsNoTracking()
+                .AnyAsync(c => c.id == id, cancellationToken);
+        }
+
         public async Task<PagedResult<TCustomer>> GetAllPaged(int pageNumber, int pageSize, string? search, 
         CancellationToken cancellationToken = default)
         {

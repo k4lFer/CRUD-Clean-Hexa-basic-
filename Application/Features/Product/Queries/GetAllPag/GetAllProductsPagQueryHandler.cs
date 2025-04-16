@@ -7,7 +7,7 @@ using Shared.Message;
 
 namespace Application.Features.Product.Queries.GetAllPag
 {
-    public class GetAllProductsPagQueryHandler : IRequestHandler<GetAllProductsPagQuery, (Message, PagedResponse<ProductResponseDto>)>
+    public class GetAllProductsPagQueryHandler : IRequestHandler<GetAllProductsPagQuery, Result<PagedResponse<ProductResponseDto>>>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -16,30 +16,27 @@ namespace Application.Features.Product.Queries.GetAllPag
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public async Task<(Message, PagedResponse<ProductResponseDto>)> Handle(GetAllProductsPagQuery request, CancellationToken cancellationToken)
+
+        public async Task<Result<PagedResponse<ProductResponseDto>>> Handle(GetAllProductsPagQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
-            var pagedProducts = await _productRepository.GetAllPaged(
-                request.pageNumber,
-                request.pageSize,
-                request.search,
-                cancellationToken);
-
-            if(pagedProducts == null)
+            var pagedProducts = await _productRepository
+                .GetAllPaged(
+                    request.pageNumber, 
+                    request.pageSize, 
+                    request.search,
+                    cancellationToken
+                );
+            if (pagedProducts != null && pagedProducts.Items.Any())
             {
-                message.NotFound();
-                message.AddMessage("Productos no encontrados");
-                return(message, null); 
-            } 
+                var products = _mapper.Map<IEnumerable<ProductResponseDto>>(pagedProducts.Items);
 
-            var products = _mapper.Map<IEnumerable<ProductResponseDto>>(pagedProducts.Items);
+                var response = PagedResponse<ProductResponseDto>.Ok(
+                    new PaginationResponseDto<ProductResponseDto>(products, pagedProducts.TotalCount, request.pageNumber, request.pageSize)
+                );
 
-            var response = PagedResponse<ProductResponseDto>.Ok(
-                new PaginationResponseDto<ProductResponseDto>(products, pagedProducts.TotalCount, request.pageNumber, request.pageSize)
-            );
-
-            message.Success();
-            return (message, response);
+                return Result<PagedResponse<ProductResponseDto>>.Success(response, "Products retrieved successfully.");
+            }
+            return Result<PagedResponse<ProductResponseDto>>.Error("Products not found.");
         }
     }
 

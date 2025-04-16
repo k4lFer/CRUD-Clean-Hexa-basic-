@@ -138,3 +138,4 @@ D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\refint\Presenta
 D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\Presentation.pdb
 D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\Presentation.genruntimeconfig.cache
 D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\ref\Presentation.dll
+D:\Arquitectura\Model-Architecture\Presentation\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

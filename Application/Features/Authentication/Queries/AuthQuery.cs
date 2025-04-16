@@ -5,7 +5,7 @@ using Shared.Message;
 
 namespace Application.Features.Authentication.Queries
 {
-    public class AuthQuery : IRequest<(Message, AuthResponseDto)>
+    public class AuthQuery : IRequest<Result<AuthResponseDto>>
     {
         public AuthDto AuthDto { get; set; }
         public AuthQuery(AuthDto authDto) => AuthDto = authDto;

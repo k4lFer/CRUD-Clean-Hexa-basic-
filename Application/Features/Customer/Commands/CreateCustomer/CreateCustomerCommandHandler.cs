@@ -1,14 +1,12 @@
-using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
-using Shared.Message;
-using Application.Interfaces.Services;
 using Domain.Interfaces.Repositories;
 using Application.Common.Interfaces;
+using Application.DTOs.Common;
 
 namespace Application.Features.Customer.Commands.CreateCustomer
 {
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Message>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<object>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
@@ -17,9 +15,14 @@ namespace Application.Features.Customer.Commands.CreateCustomer
         public CreateCustomerCommandHandler(IUnitOfWork unitOfWork, IDomainEventDispatcher dispatcher, ICustomerRepository customerRepository) 
             => (_unitOfWork, _dispatcher, _customerRepository) = (unitOfWork, dispatcher, customerRepository);
 
-        public async Task<Message> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        /// <summary>
+        /// Creates a new customer
+        /// </summary>
+        /// <param name="request">The request containing the customer information</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The result of the operation, including the created resource</returns>
+        public async Task<Result<object>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             var customer = TCustomer.Create(
                 request.Customer.firstName,
                 request.Customer.lastName,
@@ -36,9 +39,7 @@ namespace Application.Features.Customer.Commands.CreateCustomer
 
             await _dispatcher.DispatchAndClearEventsAsync(customer, cancellationToken); 
 
-            message.Created();
-            message.AddMessage("Cliente creado exitosamente.");
-            return message;
+            return Result<object>.Created( "Customer created successfully.");
         }
     }
 }

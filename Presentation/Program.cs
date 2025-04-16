@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 #region AppSettings
-AppSettings.Init();
+AppSettings.Init(builder.Configuration);
 #endregion
 
 #region Injecting Services (Injection Dependency)

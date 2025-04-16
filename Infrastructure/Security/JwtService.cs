@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using Application.DTOs.Common;
 using Application.Interfaces.Services;
-using Shared.Message;
 using Shared.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -39,10 +38,9 @@ namespace Infrastructure.Security
             return Task.FromResult(jwt);
         }
 
-        public Task<(Tokens, Message)> GenerateAccessTokenFromRefreshToken(string refreshToken)
+        public Task<Result<Tokens>> GenerateAccessTokenFromRefreshToken(string refreshToken)
         {
-            var message = new Message();
-            var tokenHandler = new JwtSecurityTokenHandler();
+             var tokenHandler = new JwtSecurityTokenHandler();
             SymmetricSecurityKey refreshKey = new(Encoding.UTF8.GetBytes(AppSettings.GetRefreshJwtSecret()));
 
             try
@@ -66,9 +64,7 @@ namespace Infrastructure.Security
 
                 if (type != "refresh")
                 {
-                    message.AddMessage("El token no es un refresh token.");
-                    message.Error();
-                    return Task.FromResult<(Tokens, Message)>((null, message));
+                    return Task.FromResult(Result<Tokens>.Error("El token no es un refresh token."));
                 }
 
                 SymmetricSecurityKey accessKey = new(Encoding.UTF8.GetBytes(AppSettings.GetAccessJwtSecret()));
@@ -91,28 +87,21 @@ namespace Infrastructure.Security
                 var newToken = tokenHandler.CreateToken(descriptor);
                 var newAccessToken = tokenHandler.WriteToken(newToken);
 
-                message.AddMessage("Access Token generado exitosamente.");
-                message.Success();
-
-                return Task.FromResult((new Tokens
+                return Task.FromResult(Result<Tokens>.Success(new Tokens
                 {
                     accessToken = newAccessToken
-                }, message));
+                }, "Access Token generado exitosamente."));
             }
             catch (SecurityTokenExpiredException)
             {
-                message.AddMessage("El refresh token ha expirado.");
-                message.Error();
-                return Task.FromResult<(Tokens, Message)>((null, message));
+
+                return Task.FromResult(Result<Tokens>.Error("El refresh token ha expirado."));
             }
             catch (Exception ex)
             {
-                message.AddMessage("Error al validar el refresh token: " + ex.Message);
-                message.Error();
-                return Task.FromResult<(Tokens, Message)>((null, message));
+                return Task.FromResult(Result<Tokens>.Exception("Error al validar el refresh token: " + ex.Message));
             }
         }
-
 
         public Task<string> GenerateRefreshToken(AuthResponseDto user)
         {

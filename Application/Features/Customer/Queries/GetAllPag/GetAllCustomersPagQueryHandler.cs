@@ -7,7 +7,7 @@ using Shared.Message;
 
 namespace Application.Features.Customer.Queries.GetAllPag
 {
-    public class GetAllCustomersPagQueryHandler : IRequestHandler<GetAllCustomersPagQuery, (Message, PagedResponse<CustomerResponseDto>)>
+    public class GetAllCustomersPagQueryHandler : IRequestHandler<GetAllCustomersPagQuery, Result<PagedResponse<CustomerResponseDto>>>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
@@ -18,30 +18,25 @@ namespace Application.Features.Customer.Queries.GetAllPag
             _mapper = mapper;
         }
 
-        public async Task<(Message, PagedResponse<CustomerResponseDto>)> Handle(GetAllCustomersPagQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PagedResponse<CustomerResponseDto>>> Handle(GetAllCustomersPagQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             var pagedCustomers = await _customerRepository.GetAllPaged(
                 request.pageNumber, 
                 request.pageSize, 
                 request.seach, 
                 cancellationToken);
 
-            if (pagedCustomers == null)
+            if (pagedCustomers != null)
             {
-                message.NotFound();
-                message.AddMessage("Clientes no encontrados.");
-                return (message, null);
+                var customers = _mapper.Map<IEnumerable<CustomerResponseDto>>(pagedCustomers.Items);
+
+                var response = PagedResponse<CustomerResponseDto>.Ok(
+                    new PaginationResponseDto<CustomerResponseDto>(customers, pagedCustomers.TotalCount, request.pageNumber, request.pageSize)
+                );
+
+                return Result<PagedResponse<CustomerResponseDto>>.Success(response);
             }
-            
-            var customers = _mapper.Map<IEnumerable<CustomerResponseDto>>(pagedCustomers.Items);
-
-            var response = PagedResponse<CustomerResponseDto>.Ok(
-                new PaginationResponseDto<CustomerResponseDto>(customers, pagedCustomers.TotalCount, request.pageNumber, request.pageSize)
-            );
-
-            message.Success();
-            return (message, response);
+            return Result<PagedResponse<CustomerResponseDto>>.NotFound("No customers found.");
         }
     }
 }

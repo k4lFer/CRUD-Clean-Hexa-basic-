@@ -1,22 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Shared.Settings.Objects;
 
 namespace Shared.Settings
 {
     public static class AppSettings
     {
+        private static IConfiguration? _configuration;
         public static GlobalSettings _globalSettings = new();
 
-        public static void Init()
+        public static void Init(IConfiguration configuration)
         {
-            _globalSettings = new GlobalSettings();
-
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            IConfigurationRoot configuration = builder.Build();
+            _configuration = configuration;
 
             _globalSettings.dbSettings.ConnectionStringMySql = configuration["ConnectionStrings:MySQLConnection"];
             _globalSettings.jwtSettings.AccessTokenJwtKey = configuration["Authentication:Jwt:AccessTokenSecret"];
@@ -27,16 +20,11 @@ namespace Shared.Settings
         }
 
         public static string GetConnectionStringMySql() => _globalSettings.dbSettings.ConnectionStringMySql;
-        
         public static string GetAccessJwtSecret() => _globalSettings.jwtSettings.AccessTokenJwtKey;
-        
         public static string GetRefreshJwtSecret() => _globalSettings.jwtSettings.RefreshTokenJwtKey;
-        
         public static string GetIssuer() => _globalSettings.jwtSettings.Issuer;
-
         public static string GetAudience() => _globalSettings.jwtSettings.Audience;
-
         public static string GetOriginRequest() => _globalSettings.corsSettings.OriginRequest;
-
     }
+
 }

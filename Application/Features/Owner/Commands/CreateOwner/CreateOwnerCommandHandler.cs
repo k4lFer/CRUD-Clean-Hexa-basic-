@@ -3,18 +3,18 @@ using Domain.Entities;
 using MediatR;
 using Shared.Message;
 using Application.Common.Interfaces;
+using Application.DTOs.Common;
 
 namespace Application.Features.Owner.Commands.CreateOwner
 {
-    public class CreateOwnerCommandHandler : IRequestHandler<CreateOwnerCommand, Message>
+    public class CreateOwnerCommandHandler : IRequestHandler<CreateOwnerCommand, Result<object>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOwnerRepository _ownerRepository;
         public CreateOwnerCommandHandler(IUnitOfWork unitOfWork, IOwnerRepository ownerRepository) 
         => (_unitOfWork, _ownerRepository) = (unitOfWork, ownerRepository);
-        public async Task<Message> Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
+        public async Task<Result<object>> Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             TOwner owner = TOwner.Create(
                 request.Owner.username,
                 BCrypt.Net.BCrypt.HashPassword(request.Owner.password),
@@ -30,10 +30,8 @@ namespace Application.Features.Owner.Commands.CreateOwner
 
             await _ownerRepository.AddAsync(owner, cancellationToken); // 🔹 Agrega el propietario
             await _unitOfWork.SaveChangesAsync(cancellationToken); // 🔹 Guarda los cambios en la BD
-
-            message.Created();
-            message.AddMessage("Propietario creado con éxito");
-            return message;
+            
+            return Result<object>.Created("Owner created successfully"); // 🔹 Retorna el resultado
         }
     }
 }

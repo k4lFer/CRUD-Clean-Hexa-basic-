@@ -60,22 +60,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "soCustomer",
+        "Name": "input",
         "Type": "Presentation.ServiceObject.Customer.SoCustomerInput",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Presentation.ServiceObject.Customer.SoCustomerOutput",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Presentation.Controllers.CustomerController",
@@ -127,17 +117,7 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Presentation.ServiceObject.Customer.SoCustomerOutput",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Presentation.Controllers.CustomerController",
@@ -153,17 +133,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Presentation.ServiceObject.Customer.SoCustomerOutput",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Presentation.Controllers.OrderController",
@@ -416,17 +386,7 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Presentation.ServiceObject.Product.SoProductOutput",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Presentation.Controllers.ProductController",

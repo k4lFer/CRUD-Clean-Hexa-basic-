@@ -1,11 +1,12 @@
 using Application.Common.Interfaces;
+using Application.DTOs.Common;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Shared.Message;
 
 namespace Application.Features.Product.Commands.UpdateProduct
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Message>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result<object>>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -15,10 +16,9 @@ namespace Application.Features.Product.Commands.UpdateProduct
             _unitOfWork = unitOfWork;
         }
         
-        public async Task<Message> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Result<object>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var message = new Message();
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            //await _unitOfWork.BeginTransactionAsync(cancellationToken);
             var existingProduct = await _productRepository.GetByIdAsync(request.Product.id, cancellationToken);
             if (existingProduct != null)
             {
@@ -42,19 +42,14 @@ namespace Application.Features.Product.Commands.UpdateProduct
                     existingProduct.stock == originalValues.stock &&
                     existingProduct.price == originalValues.price)
                 {
-                    message.AddMessage("No se realizaron cambios en el producto.");
-                    message.Warning();
-                    return message;
+                    return Result<object>.Warning("No se realizaron cambios en el producto"); // 🔹 Retorna el resultado
                 }
                     await _productRepository.UpdateAsync(existingProduct, cancellationToken);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
-                    message.Success();
-                    message.AddMessage("Producto actualizado exitosamente.");
-                    return message;
+
+                    return Result<object>.Success("Producto actualizado exitosamente"); // 🔹 Retorna el resultado
             }
-            message.NotFound();
-            message.AddMessage("Product not encontrado");
-            return message;
+            return Result<object>.NotFound("Product no encontrado"); // 🔹 Retorna el resultado
             
         }
     }

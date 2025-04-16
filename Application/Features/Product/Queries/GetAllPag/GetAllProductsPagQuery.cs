@@ -5,7 +5,7 @@ using Shared.Message;
 
 namespace Application.Features.Product.Queries.GetAllPag
 {
-    public class GetAllProductsPagQuery : IRequest<(Message, PagedResponse<ProductResponseDto>)> 
+    public class GetAllProductsPagQuery : IRequest<Result<PagedResponse<ProductResponseDto>>> 
     { 
         public int pageNumber { get; set; } 
         public int pageSize { get; set; }

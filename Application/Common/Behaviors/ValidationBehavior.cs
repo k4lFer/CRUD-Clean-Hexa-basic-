@@ -1,12 +1,14 @@
+using System.Net;
+using Application.DTOs;
+using Application.DTOs.Common;
 using FluentValidation;
 using MediatR;
-using Shared.Message;
 
 namespace Application.Common.Behaviors
 {
-     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
-        where TResponse : Message, new()
+        where TResponse : Result<object>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -15,25 +17,38 @@ namespace Application.Common.Behaviors
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken)
         {
-            var message = new TResponse();
+            if (!_validators.Any())
+                return await next();
 
-            if (_validators.Any())
+            var context = new ValidationContext<TRequest>(request);
+            var validationResults = await Task.WhenAll(
+                _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+
+            var failures = validationResults
+                .SelectMany(r => r.Errors)
+                .Where(f => f != null)
+                .GroupBy(f => f.PropertyName)
+                .ToList();
+
+            if (failures.Any())
             {
-                var context = new ValidationContext<TRequest>(request);
-                var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-                var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+                var messageDto = new MessageDto { Type = "error" };
 
-                if (failures.Count > 0)
+                foreach (var group in failures)
                 {
-                    foreach (var error in failures)
+                    foreach (var error in group)
                     {
-                        message.AddMessage(error.ErrorMessage);
+                        messageDto.AddMessage($"{error.PropertyName}: {error.ErrorMessage}");
                     }
-                    message.Warning();
-                    return message;
                 }
+
+                var result = Result<object>.Failure([messageDto], HttpStatusCode.BadRequest);
+                return (TResponse)(object)result;
             }
 
             return await next();

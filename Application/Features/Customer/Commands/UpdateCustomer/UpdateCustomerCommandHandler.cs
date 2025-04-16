@@ -1,11 +1,12 @@
 using Application.Common.Interfaces;
+using Application.DTOs.Common;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Shared.Message;
 
 namespace Application.Features.Customer.Commands.UpdateCustomer
 {
-    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Message>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Result<object>>
     {
         private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
@@ -16,9 +17,8 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Message> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<Result<object>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             var existingCustomer = await _repository.GetByIdAsync(request.Customer.id, cancellationToken);
             if (existingCustomer != null)
             {
@@ -42,7 +42,7 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
                     request.Customer.phoneNumber
                 );
 
-                    // Verificar si hubo cambios reales
+                // Verificar si hubo cambios reales
                 if (existingCustomer.firstName == originalValues.firstName &&
                     existingCustomer.lastName == originalValues.lastName &&
                     existingCustomer.documentType == originalValues.documentType &&
@@ -50,22 +50,13 @@ namespace Application.Features.Customer.Commands.UpdateCustomer
                     existingCustomer.email == originalValues.email &&
                     existingCustomer.phoneNumber == originalValues.phoneNumber)
                 {
-                    message.AddMessage("No se realizaron cambios.");
-                    message.Warning();
-                    return message;
+                    return Result<object>.Warning("No se realizaron cambios.");
                 }
                 await _repository.UpdateAsync(existingCustomer, cancellationToken); // Actualizar el cliente
                 await _unitOfWork.SaveChangesAsync(cancellationToken); // Guardar cambios en la base de datos
-
-                message.Success();
-                message.AddMessage("Cliente actualizado exitosamente.");
-                return message;
+                return Result<object>.Success("Cliente actualizado exitosamente.");
             }
-
-            message.AddMessage("Cliente no encontrado.");
-            message.Error();
-            return message;
-     
+            return Result<object>.NotFound("Cliente no encontrado.");
         }
     }
 }

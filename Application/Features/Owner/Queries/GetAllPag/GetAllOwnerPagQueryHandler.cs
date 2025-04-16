@@ -11,7 +11,7 @@ using Shared.Message;
 
 namespace Application.Features.Owner.Queries.GetAllPag
 {
-    public class GetAllOwnerPagQueryHandler : IRequestHandler<GetAllOwnerPagQuery, (Message, PagedResponse<OwnerResponseDto>)>
+    public class GetAllOwnerPagQueryHandler : IRequestHandler<GetAllOwnerPagQuery, Result<PagedResponse<OwnerResponseDto>>>
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
@@ -24,30 +24,23 @@ namespace Application.Features.Owner.Queries.GetAllPag
             _mapper = mapper;
             _currentUserService = currentUserService;
         }
-        public async Task<(Message, PagedResponse<OwnerResponseDto>)> Handle(GetAllOwnerPagQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PagedResponse<OwnerResponseDto>>> Handle(GetAllOwnerPagQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
-            var ownerId = _currentUserService.UserId;
-
             var pagedOwners = await _ownerRepository.GetAllPaged(
                 request.pageNumber, 
                 request.pageSize, 
                 request.search,
-                Guid.Parse(ownerId),
+                Guid.Parse(_currentUserService.UserId!),
                 cancellationToken);
-            if (pagedOwners == null)
+            if (pagedOwners != null)
             {
-                message.NotFound();
-                message.AddMessage("Propietarios no encontrados.");
-                return (message, null);
+                var owners = _mapper.Map<IEnumerable<OwnerResponseDto>>(pagedOwners.Items);
+                var response = PagedResponse<OwnerResponseDto>.Ok(
+                    new PaginationResponseDto<OwnerResponseDto>(owners, pagedOwners.TotalCount, request.pageNumber, request.pageSize)
+                );
+                return Result<PagedResponse<OwnerResponseDto>>.Success(response); // 🔹 Retorna el resultado  
             }
-            var owners = _mapper.Map<IEnumerable<OwnerResponseDto>>(pagedOwners.Items);
-            var response = PagedResponse<OwnerResponseDto>.Ok(
-                new PaginationResponseDto<OwnerResponseDto>(owners, pagedOwners.TotalCount, request.pageNumber, request.pageSize)
-            );
-            message.Success();
-            return (message, response);
-            
+            return Result<PagedResponse<OwnerResponseDto>>.NotFound("Propietarios no encontrados.");
         }
     }
 }

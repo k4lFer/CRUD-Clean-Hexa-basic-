@@ -1,4 +1,3 @@
-using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.DTOs.Order;
 using Domain.Entities;
@@ -27,47 +26,18 @@ namespace Application.Features.Order.Services
             _orderDetailRepository = orderDetailRepository;
             _dispatcher = dispatcher;
         }
-         #region Private Methods
+        #region Private Methods
 
         private async Task<TOrder> GetValidOrderAsync(Guid orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId) 
-                        ?? throw new BaseException("Orden no encontrada");
-            if (order.IsCancelled())
-            {
-                throw new BaseException("La orden ya fue cancelada");
-            }
-            return order;
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            return order == null || order.IsCancelled() ? null : order;
         }
 
         private async Task SaveOrderChangesAsync(TOrder order)
         {
             await _orderRepository.UpdateAsync(order);
             await _unitOfWork.SaveChangesAsync(default);
-        }
-
-        private async Task<ICollection<TProduct>> ValidateProductsAndStockAsync(
-            ICollection<OrderDetailCreateDto> orderDetails, 
-            CancellationToken cancellationToken)
-        {
-            var productIds = orderDetails.Select(d => d.productId).ToList();
-            var products = await _productRepository.GetByIdsAsync(productIds, cancellationToken);
-
-            foreach (var detail in orderDetails)
-            {
-                ValidateProductStock(detail, products);
-            }
-
-            return products;
-        }
-
-        private void ValidateProductStock(OrderDetailCreateDto detail, ICollection<TProduct> products)
-        {
-            var product = products.FirstOrDefault(p => p.id == detail.productId) 
-                ?? throw new BaseException($"Producto ID {detail.productId} no encontrado");
-                
-            if (product.stock < detail.quantity)
-                throw new BaseException($"Stock insuficiente para {product.name}");
         }
 
         private async Task<TOrder> CreateAndSaveOrderAsync(
@@ -95,9 +65,7 @@ namespace Application.Features.Order.Services
         private async Task SaveOrderWithDetailsAsync(TOrder order, CancellationToken cancellationToken)
         {
             await _orderRepository.AddAsync(order, cancellationToken);
-            
-            var orderDetails = order.OrderDetails.ToList();
-            await _orderDetailRepository.CreateRangeAsync(orderDetails, cancellationToken);
+            await _orderDetailRepository.CreateRangeAsync(order.OrderDetails.ToList(), cancellationToken);
         }
 
         private async Task UpdateProductsStockAsync(
@@ -113,7 +81,17 @@ namespace Application.Features.Order.Services
         {
             foreach (var detail in orderDetails)
             {
-                products.First(p => p.id == detail.productId).DecreaseStock(detail.quantity);
+                var product = products.First(p => p.id == detail.productId);
+                product.DecreaseStock(detail.quantity);
+            }
+        }
+
+        private void RestoreProductsStock(TOrder order, ICollection<TProduct> products)
+        {
+            foreach (var detail in order.OrderDetails)
+            {
+                var product = products.FirstOrDefault(p => p.id == detail.productId);
+                product?.IncreaseStock(detail.quantity);
             }
         }
 
@@ -127,11 +105,6 @@ namespace Application.Features.Order.Services
         private async Task DispatchOrderEventsAsync(TOrder order, CancellationToken cancellationToken)
         {
             await _dispatcher.DispatchAndClearEventsAsync(order, cancellationToken);
-        }
-
-        private async Task HandleOrderCreationErrorAsync(CancellationToken cancellationToken)
-        {
-            await _unitOfWork.RollbackAsync(cancellationToken);
         }
 
         #endregion

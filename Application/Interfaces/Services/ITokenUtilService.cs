@@ -8,6 +8,6 @@ namespace Application.Interfaces.Services
     {
         Task<string> GenerateAccessToken(AuthResponseDto user);
         Task<string> GenerateRefreshToken(AuthResponseDto user);
-        Task<(Tokens, Message)> GenerateAccessTokenFromRefreshToken(string refreshToken);
+        Task<Result<Tokens>> GenerateAccessTokenFromRefreshToken(string refreshToken);
     }
 }

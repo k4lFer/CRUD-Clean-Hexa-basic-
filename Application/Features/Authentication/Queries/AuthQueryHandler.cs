@@ -9,7 +9,7 @@ using Shared.Message;
 
 namespace Application.Features.Authentication.Queries
 {
-    public class AuthQueryHandler : IRequestHandler<AuthQuery, (Message, AuthResponseDto)>
+    public class AuthQueryHandler : IRequestHandler<AuthQuery, Result<AuthResponseDto>>
     {
         private readonly ITokenUtilService _jwtService;
         private readonly IOwnerRepository _ownerRepository;
@@ -18,9 +18,8 @@ namespace Application.Features.Authentication.Queries
         public AuthQueryHandler(ITokenUtilService jwtService, IOwnerRepository ownerRepository, IMapper mapper) 
         => (_jwtService, _ownerRepository, _mapper) = (jwtService, ownerRepository, mapper);
 
-        public async Task<(Message, AuthResponseDto)> Handle(AuthQuery request, CancellationToken cancellationToken)
+        public async Task<Result<AuthResponseDto>> Handle(AuthQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             TOwner? owner = await _ownerRepository.GetByUsername(request.AuthDto.username, cancellationToken);
 
             if (owner != null)
@@ -37,19 +36,12 @@ namespace Application.Features.Authentication.Queries
                         accessToken = accessToken,
                         refreshToken = refreshToken,
                     };
-
-                    message.AddMessage("Credenciales correctas. Bienvenido al sistema!.");    
-                    message.Success();
-                    return (message, authDto);
+                    return Result<AuthResponseDto>.Success(authDto, "Credenciales correctas. Bienvenido al sistema!.");
                 }
+                return Result<AuthResponseDto>.Conflict("Credenciales incorrectas (La contraseña no coincide con el usuario).");
 
-                message.AddMessage("Credenciales incorrectas (La contraseña no coincide con el usuario).");
-                return (message, null);
             }
-
-            message.Error();
-            message.AddMessage("Credenciales incorrectas.");
-            return (message, null);
+            return Result<AuthResponseDto>.Error("Credenciales incorrectas (El usuario no existe).");
         }
 
     }

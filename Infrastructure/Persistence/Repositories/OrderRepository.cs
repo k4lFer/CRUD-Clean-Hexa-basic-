@@ -1,7 +1,5 @@
-using Application.DTOs.Common;
 using Domain.Interfaces.Repositories;
 using Domain.Entities;
-using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories.Generic;
 using Microsoft.EntityFrameworkCore;
 using Domain.ValueObjects;
@@ -23,13 +21,12 @@ namespace Infrastructure.Persistence.Repositories
 
             return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
-
+        
         public Task<TOrder?> GetByIdWithDetailsAsync(Guid orderId, CancellationToken cancellationToken = default)
         {
             return _context.Orders
                 .AsNoTracking()
                 .Include(o => o.OrderDetails)
-                    //.ThenInclude(od => od.Product)
                 .FirstOrDefaultAsync(o => o.id == orderId, cancellationToken);
         }
 
@@ -39,6 +36,7 @@ namespace Infrastructure.Persistence.Repositories
                 .AsNoTracking()
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                    //.Include(o => o.tCustomer)
                 .FirstOrDefaultAsync(o => o.id == orderId, cancellationToken);
         }
     }

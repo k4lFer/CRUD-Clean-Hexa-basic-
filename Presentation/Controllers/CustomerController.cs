@@ -1,4 +1,5 @@
-﻿using Application.Features.Customer.Commands.CreateCustomer;
+﻿using Application.DTOs.Common;
+using Application.Features.Customer.Commands.CreateCustomer;
 using Application.Features.Customer.Commands.UpdateCustomer;
 using Application.Features.Customer.Queries.GetAll;
 using Application.Features.Customer.Queries.GetAllPag;
@@ -21,83 +22,36 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoCustomerOutput>> GetById([FromQuery] Guid id)
+        public async Task<IActionResult> GetById([FromQuery] Guid id)
         {
-            try
-            {
-                (_so.message, _so.Body.Dto) = await _mediator.Send(new GetCustomerByIdQuery(id));
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }   
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetCustomerByIdQuery(id)));
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<SoCustomerOutput>> Create([FromBody] SoCustomerInput soCustomer)
+        public async Task<IActionResult> Create([FromBody] SoCustomerInput input)
         {
-            try
-            {
-                _so.message = ValidatePartDto(soCustomer.InputDto.CreateDto,
-                [
-                    nameof(soCustomer.InputDto.CreateDto.firstName),
-                    nameof(soCustomer.InputDto.CreateDto.lastName),
-                    nameof(soCustomer.InputDto.CreateDto.email),
-                    nameof(soCustomer.InputDto.CreateDto.documentNumber)
-                ]);
-                if (_so.message.ExistsMessage()) return StatusCode((int)_so.message.ToStatusCode(), _so);
-
-                _so.message = await _mediator.Send(new CreateCustomerCommand(soCustomer.InputDto.CreateDto));
-                return StatusCode((int)_so.message.ToStatusCode(), _so.message);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            }          
+            return ResponseHelper.GetActionResult(await _mediator.Send(new CreateCustomerCommand(input.InputDto.CreateDto)));           
         }
 
         [AllowAnonymous]
         [HttpPut]
         [Route("[action]")]
-        public async Task<ActionResult<SoCustomerOutput>> Update([FromBody] SoCustomerInput soCustomer)
+        public async Task<IActionResult> Update([FromBody] SoCustomerInput soCustomer)
         {
-            try
-            {
-                _so.message = ValidatePartDto(soCustomer.InputDto.UpdateDto,
-                [
-                    nameof(soCustomer.InputDto.UpdateDto.id),
-                ]);
-                if (_so.message.ExistsMessage()) return StatusCode((int)_so.message.ToStatusCode(), _so);
-
-                _so.message = await _mediator.Send(new UpdateCustomerCommand(soCustomer.InputDto.UpdateDto));
-                return StatusCode((int)_so.message.ToStatusCode(), _so.message);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            } 
+            return ResponseHelper.GetActionResult(await _mediator.Send(new UpdateCustomerCommand(soCustomer.InputDto.UpdateDto)));
         }
         
         [AllowAnonymous]
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<SoCustomerOutput>> GetAllPaged(
+        public async Task<IActionResult> GetAllPaged(
             [FromQuery] int? pageNumber, 
             [FromQuery] int? pageSize, 
             [FromQuery] string? search)
         {
-            try
-            {    
-                (_so.message, _so.Body.Other) = await _mediator.Send(new GetAllCustomersPagQuery(pageNumber, pageSize, search));
-                return StatusCode((int)_so.message.ToStatusCode(), _so);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, _so.message);
-            } 
+            return ResponseHelper.GetActionResult(await _mediator.Send(new GetAllCustomersPagQuery(pageNumber, pageSize, search)));
         }
 
     }

@@ -4,10 +4,11 @@ using MediatR;
 using Shared.Message;
 using Domain.Entities;
 using Application.DTOs.Customer;
+using Application.DTOs.Common;
 
 namespace Application.Features.Customer.Queries.GetById
 {
-    public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, (Message, CustomerResponseDto)>
+    public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, Result<CustomerResponseDto>>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
@@ -18,21 +19,16 @@ namespace Application.Features.Customer.Queries.GetById
             _mapper = mapper;
         }
 
-        public async Task<(Message, CustomerResponseDto)> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CustomerResponseDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             TCustomer? customer = await _customerRepository.GetByIdAsync(request.id, cancellationToken);
 
-            if (customer == null)
+            if (customer != null)
             {
-                message.NotFound();
-                message.AddMessage("Cliente no encontrado.");
-                return (message, null);
+                var customerDto = _mapper.Map<CustomerResponseDto>(customer);
+                return Result<CustomerResponseDto>.Success(customerDto);
             }
-
-            var customerDto = _mapper.Map<CustomerResponseDto>(customer);
-            message.Success();
-            return (message, customerDto);
+            return Result<CustomerResponseDto>.NotFound("Customer not found");
         }
     }
 

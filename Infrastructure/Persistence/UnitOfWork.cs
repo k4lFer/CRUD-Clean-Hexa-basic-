@@ -1,5 +1,7 @@
 using Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 
 namespace Infrastructure.Persistence
 {
@@ -13,13 +15,13 @@ namespace Infrastructure.Persistence
             _context = context;
         }
 
-        public async Task BeginTransactionAsync(CancellationToken ct = default)
+        public async Task BeginTransactionAsync(IsolationLevel isolation, CancellationToken ct = default)
         {
             if (_transaction != null)
             {
                 throw new InvalidOperationException("Ya hay una transacción en curso.");
             }
-            _transaction = await _context.Database.BeginTransactionAsync(ct);
+            _transaction = await _context.Database.BeginTransactionAsync(isolation, ct);
         }
 
         public async Task CommitAsync(CancellationToken ct = default)

@@ -4,16 +4,16 @@ using System.Collections.ObjectModel;
 namespace Domain.Entities
 {
     public class TProduct : BaseEntity
-    {
-        // Propiedades privadas para encapsulación
-        private readonly ICollection<TOrderDetail> _orderDetails = new List<TOrderDetail>();
-        
+    {        
         public string name { get; private set; }
         public string? description { get; private set; }
         public int stock { get; private set; }
         public decimal price { get; private set; }
         public DateTime createdAt { get; private set; }
         public DateTime updatedAt { get; private set; }
+
+        // Propiedades privadas para encapsulación
+        private readonly ICollection<TOrderDetail> _orderDetails = new List<TOrderDetail>();
         
         // Colección de solo lectura
         public IReadOnlyCollection<TOrderDetail> OrderDetails => _orderDetails.ToList().AsReadOnly();
@@ -29,8 +29,7 @@ namespace Domain.Entities
             description = Description;
             stock = Stock;
             price = Price;
-            createdAt = DateTime.UtcNow;
-            updatedAt = DateTime.UtcNow;
+            SetCreationTimestamp();
         }
 
         // Método de fábrica para crear un nuevo producto
@@ -43,21 +42,21 @@ namespace Domain.Entities
         public void DecreaseStock(int quantity)
         {
             stock -= quantity;
-            updatedAt = DateTime.UtcNow;
+            UpdateModificationTimestamp();
         }
 
         // Método para aumentar el stock
         public void IncreaseStock(int quantity)
         {
             stock += quantity;
-            updatedAt = DateTime.UtcNow;
+            UpdateModificationTimestamp();
         }
 
         // Método para actualizar el precio
         public void UpdatePrice(decimal newPrice)
         {
             price = newPrice;
-            updatedAt = DateTime.UtcNow;
+            UpdateModificationTimestamp();
         }
 
         public void Update(string name, string description, int stock, decimal price)
@@ -66,6 +65,15 @@ namespace Domain.Entities
             this.description = description ?? this.description;
             this.stock = stock != default ? stock : this.stock;
             this.price = price != default ? price : this.price; 
+            UpdateModificationTimestamp();
+        }
+        private void SetCreationTimestamp()
+        {
+            createdAt = DateTime.UtcNow;
+            updatedAt = DateTime.UtcNow;
+        }
+        private void UpdateModificationTimestamp()
+        {
             updatedAt = DateTime.UtcNow;
         }
 

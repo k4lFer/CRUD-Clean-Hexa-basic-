@@ -1,3 +1,4 @@
+using Application.DTOs.Common;
 using Application.DTOs.Product;
 using AutoMapper;
 using Domain.Interfaces.Repositories;
@@ -6,7 +7,7 @@ using Shared.Message;
 
 namespace Application.Features.Product.Queries.GetById
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, (Message, ProductResponseDto)>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductResponseDto>>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -15,19 +16,15 @@ namespace Application.Features.Product.Queries.GetById
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public async Task<(Message, ProductResponseDto)> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ProductResponseDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var message = new Message();
             var product = await _productRepository.GetByIdAsync(request.ProductId, cancellationToken);
-            if (product == null)
+            if (product != null)
             {
-                message.NotFound();
-                message.AddMessage("Product not found.");
-                return (message, null);
+                var productDto = _mapper.Map<ProductResponseDto>(product);
+                return Result<ProductResponseDto>.Success(productDto); 
             }
-            var productDto = _mapper.Map<ProductResponseDto>(product);
-            message.Success();
-            return (message, productDto);
+            return Result<ProductResponseDto>.NotFound("Product not found."); // 🔹 Retorna el resultado
         }
     }
 }
